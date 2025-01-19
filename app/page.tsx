@@ -1,17 +1,19 @@
-// page.tsx
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Camera, Wand2, Shield, Clock, Upload, Sparkles, Settings, Download, CheckCircle2 } from "lucide-react"
-import Image from "next/image"
+'use client';
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Camera, Wand2, Shield, Clock, Upload, Sparkles, Settings, Download, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import homePagePhoto from '../public/photos/home-page-photo-1.jpg';
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div className="container mx-auto relative z-10"> {/* 添加 container 和 mx-auto */}
+        <div className="container mx-auto relative z-10">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
             <div>
               <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6">
@@ -30,7 +32,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <Image
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d"
+                src={homePagePhoto} // 使用变量作为 src 的值
                 alt="Profile photo example"
                 width={600}
                 height={600}
@@ -43,7 +45,7 @@ export default function Home() {
 
       {/* Features Section */}
       <section id="features" className="py-20 bg-secondary/50">
-        <div className="container mx-auto"> {/* 添加 container 和 mx-auto */}
+        <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {[
@@ -55,7 +57,7 @@ export default function Home() {
               {
                 icon: <Shield className="h-8 w-8" />,
                 title: "Guaranteed Compliance",
-                description: "Meets all official ID photo requirements, ensuring your photos are accepted worldwide."
+                description: "Meets all official ID photo requirements, ensuring your photos are accepted by recognized authorities."
               },
               {
                 icon: <Clock className="h-8 w-8" />,
@@ -80,7 +82,7 @@ export default function Home() {
 
       {/* How It Works Section */}
       <section className="py-20">
-        <div className="container mx-auto"> {/* 添加 container 和 mx-auto */}
+        <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Create Your ID Photo in 4 Simple Steps</h2>
           <div className="grid gap-8 md:grid-cols-4">
             {[
@@ -134,7 +136,7 @@ export default function Home() {
 
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-secondary/50">
-        <div className="container mx-auto"> {/* 添加 container 和 mx-auto */}
+        <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto">
             <Accordion type="single" collapsible>
@@ -192,7 +194,7 @@ export default function Home() {
       </section>
       {/* Privacy Section */}
       <section id="privacy" className="py-20">
-        <div className="container mx-auto"> {/* 添加 container 和 mx-auto */}
+        <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Privacy Policy</h2>
           <div className="max-w-3xl mx-auto text-muted-foreground">
             <p className="mb-4">
@@ -212,7 +214,7 @@ export default function Home() {
       </section>
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-secondary/50">
-        <div className="container mx-auto"> {/* 添加 container 和 mx-auto */}
+        <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Contact Us</h2>
           <div className="max-w-3xl mx-auto text-muted-foreground text-center">
             <p>
