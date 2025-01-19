@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect, useMemo, forwardRef, lazy, Suspense } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useMemo, lazy, Suspense } from 'react';
 import 'cropperjs/dist/cropper.css';
 import '../globals.css';
 import './idphoto.css';
@@ -18,7 +18,6 @@ const CropperComponent = lazy(() =>
     import('react-cropper').then((module) => ({ default: module.default }))
 );
 
-
 function ErrorFallback({ error }: { error: Error }) {
     return (
         <div role="alert">
@@ -27,6 +26,27 @@ function ErrorFallback({ error }: { error: Error }) {
         </div>
     );
 }
+
+// 骨架屏组件
+const Skeleton = () => (
+    <div className="skeleton-container">
+        <div className="skeleton-header"></div>
+        <div className="skeleton-steps">
+            <div className="skeleton-step"></div>
+            <div className="skeleton-step"></div>
+            <div className="skeleton-step"></div>
+            <div className="skeleton-step"></div>
+        </div>
+        <div className="skeleton-upload"></div>
+        <div className="skeleton-editor">
+            <div className="skeleton-cropper"></div>
+            <div className="skeleton-correction"></div>
+            <div className="skeleton-preview"></div>
+        </div>
+        <div className="skeleton-background"></div>
+        <div className="skeleton-download"></div>
+    </div>
+);
 
 export default function App() {
     const [image, setImage] = useState<string | null>(null);
@@ -39,7 +59,7 @@ export default function App() {
     const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
     const [imageKey, setImageKey] = useState<number>(0);
     const [cropperKey, setCropperKey] = useState<number>(0);
-const cropperRef = useRef<ReactCropperElement | null>(null);
+    const cropperRef = useRef<ReactCropperElement | null>(null);
     const imageRef = useRef<HTMLImageElement | null>(null);
     const lastProcessedImageData = useRef<ImageInfo | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -49,18 +69,17 @@ const cropperRef = useRef<ReactCropperElement | null>(null);
     const [isCropperReady, setIsCropperReady] = useState(false);
     const [cropperCanvasScale, setCropperCanvasScale] = useState({ scaleX: 1, scaleY: 1 });
     const [selectedAspectRatio, setSelectedAspectRatio] = useState<number>(3 / 4);
-    const fileInputRef = useRef<HTMLInputElement | null>(null); // 添加文件输入框的 ref
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [isLoading, setIsLoading] = useState(true); // 添加加载状态
 
     useEffect(() => {
         if (!canvasRef.current) {
             canvasRef.current = document.createElement('canvas') as HTMLCanvasElement;
         }
-    }, []);
-
-    useEffect(() => {
         if (typeof window !== 'undefined') {
             imageRef.current = new window.Image();
         }
+        setIsLoading(false); // 初始加载完成
     }, []);
 
     const performIntelligentCrop = useCallback(() => {
@@ -332,6 +351,10 @@ const cropperRef = useRef<ReactCropperElement | null>(null);
         }
     };
 
+    if (isLoading) {
+        return <Skeleton />; // 展示骨架屏
+    }
+
     return (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
             <div className="app">
@@ -431,29 +454,79 @@ const cropperRef = useRef<ReactCropperElement | null>(null);
                 {image && (
                     <div className="aspect-ratio-selector flex items-center justify-center gap-2 w-full">
                         <h3 className="text-center">Select Aspect Ratio</h3>
-                        <Select 
-                            value={selectedAspectRatio.toString()}
-                            onValueChange={(value) => {
-                                setSelectedAspectRatio(parseFloat(value));
-                                setCropperKey(prevKey => prevKey + 1);
-                                setTimeout(performIntelligentCrop, 100);
-                            }}
-                        >
-                            <SelectTrigger className="w-[200px]">
-                                <SelectValue placeholder="Select ratio" />
-                            </SelectTrigger>
-                            <SelectContent className="text-center">
-                                {aspectRatioOptions.map((option) => (
-                                    <SelectItem 
-                                        key={option.value}
-                                        value={option.value.toString()}
-                                        className="text-center"
-                                    >
-                                        {option.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                        <div className="aspect-ratio-select">
+                            <Select
+                                value={selectedAspectRatio.toString()}
+                                onValueChange={(value) => {
+                                    setSelectedAspectRatio(parseFloat(value));
+                                    setCropperKey(prevKey => prevKey + 1);
+                                    setTimeout(performIntelligentCrop, 100);
+                                }}
+                            >
+                                <SelectTrigger className="w-[200px]">
+                                    <SelectValue placeholder="Select ratio" />
+                                </SelectTrigger>
+                                <SelectContent className="text-center">
+                                    {aspectRatioOptions.map((option) => (
+                                        <SelectItem
+                                            key={option.value}
+                                            value={option.value.toString()}
+                                            className="text-center"
+                                        >
+                                            {option.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <div className="aspect-ratio-tooltip">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Aspect Ratio</th>
+                                            <th>Example Photo Size</th>
+                                            <th>Common Uses</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1:1</td>
+                                            <td>2x2 inches (51x51mm)</td>
+                                            <td>Passport photos for US, UK; Social media profile pictures</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2:3</td>
+                                            <td>2x3 inches (51x76mm)</td>
+                                            <td>ID photos for France, Spain; Standard photo prints</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3:4</td>
+                                            <td>3x4 inches (76x102mm)</td>
+                                            <td>Passport photos for Germany, Netherlands; Visa applications</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4:3</td>
+                                            <td>4x3 inches (102x76mm)</td>
+                                            <td>Driver's license photos in some US states; Digital camera standard</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5:7</td>
+                                            <td>2.5x3.5 inches (64x89mm)</td>
+                                            <td>Certain professional ID cards in European countries</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7:9</td>
+                                            <td>2.8x3.5 inches (71x89mm)</td>
+                                            <td>Specific ID requirements in Japan, South Korea</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9:7</td>
+                                            <td>3.5x2.8 inches (89x71mm)</td>
+                                            <td>Some Asian countries' residence permit photos</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 )}
                 {image && (

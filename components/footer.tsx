@@ -9,7 +9,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2">
               <Camera className="h-6 w-6 text-primary" />
-              <span className="text-lg font-bold">ID Photo Pro</span>
+              <span className="text-lg font-bold">ID Photographic</span>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
               Transform your photos into professional ID pictures using advanced AI technology.
@@ -56,7 +56,7 @@ export default function Footer() {
         </div>
         
         <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} ID Photo Pro. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} ID Photographic. All rights reserved.</p>
         </div>
       </div>
     </footer>
