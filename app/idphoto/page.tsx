@@ -5,14 +5,17 @@ import 'cropperjs/dist/cropper.css';
 import '../globals.css';
 import './idphoto.css';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ChevronDown } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import outline from '../../public/outline.png';
-import type { CropperRef, ImageInfo, CropData, ScaleFactors } from '@/types';
+import type { ImageInfo, CropData, ScaleFactors } from '@/types';
+import type { ReactCropperElement } from 'react-cropper';
 import { imageProcessor } from '../../utils/imageProcessor';
 import { aspectRatioOptions, presetColors } from '../../constants';
 import { intelligentCrop } from '../../utils/intelligentCrop';
 
 const CropperComponent = lazy(() =>
-    import('react-cropper').then((module) => ({ default: forwardRef<CropperRef, any>((props, ref) => <module.default {...props} ref={ref} />) }))
+    import('react-cropper').then((module) => ({ default: module.default }))
 );
 
 
@@ -36,7 +39,7 @@ export default function App() {
     const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
     const [imageKey, setImageKey] = useState<number>(0);
     const [cropperKey, setCropperKey] = useState<number>(0);
-    const cropperRef = useRef<CropperRef | null>(null);
+const cropperRef = useRef<ReactCropperElement | null>(null);
     const imageRef = useRef<HTMLImageElement | null>(null);
     const lastProcessedImageData = useRef<ImageInfo | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -123,7 +126,7 @@ export default function App() {
                 setIsScaleInitialized,
                 setIsCropperReady,
                 intelligentCrop,
-                disableMultithreading: true, // 禁用多线程
+                // disableMultithreading: true, // 禁用多线程
             });
         } catch (error) {
             console.error('Image processing error:', error);
@@ -426,19 +429,31 @@ export default function App() {
                     )}
                 </div>
                 {image && (
-                    <div className="aspect-ratio-selector">
-                        <h3>Select Aspect Ratio</h3>
-                        <select
-                            value={selectedAspectRatio}
-                            onChange={handleAspectRatioChange}
-                            className="aspect-ratio-dropdown"
+                    <div className="aspect-ratio-selector flex items-center justify-center gap-2 w-full">
+                        <h3 className="text-center">Select Aspect Ratio</h3>
+                        <Select 
+                            value={selectedAspectRatio.toString()}
+                            onValueChange={(value) => {
+                                setSelectedAspectRatio(parseFloat(value));
+                                setCropperKey(prevKey => prevKey + 1);
+                                setTimeout(performIntelligentCrop, 100);
+                            }}
                         >
-                            {aspectRatioOptions.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger className="w-[200px]">
+                                <SelectValue placeholder="Select ratio" />
+                            </SelectTrigger>
+                            <SelectContent className="text-center">
+                                {aspectRatioOptions.map((option) => (
+                                    <SelectItem 
+                                        key={option.value}
+                                        value={option.value.toString()}
+                                        className="text-center"
+                                    >
+                                        {option.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
                 )}
                 {image && (
@@ -522,7 +537,9 @@ export default function App() {
                                         src={croppedImage || processedImage || image}
                                         alt="Processed image"
                                         onError={(e) => {
-                                            e.target.src = '';
+                                            if (e.target instanceof HTMLImageElement) {
+                                                e.target.src = '';
+                                            }
                                         }}
                                         className="image-base"
                                         style={{
