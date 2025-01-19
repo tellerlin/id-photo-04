@@ -44,9 +44,11 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-          Get Started
-        </Button>
+        <Link href="/idphoto">
+          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </header>
   )
