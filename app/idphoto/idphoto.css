@@ -1,88 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    @apply bg-background text-foreground;
-    padding: 0 1rem;
-  }
-}
-
 /* App.css */
 :root {
   --primary: #2563eb;
@@ -117,6 +32,7 @@
   position: relative;
 }
 
+
 .process-steps::before {
   content: '';
   position: absolute;
@@ -126,7 +42,9 @@
   height: 2px;
   background-color: var(--muted); /* 使用主题变量 */
   z-index: 1;
+  background-color: rgba(255, 255, 255, 0.5); /* 添加白色半透明背景 */
 }
+
 
 .process-step {
   display: flex;
@@ -212,13 +130,10 @@
   box-shadow: var(--shadow-md);
 }
 
-.file-input-wrapper {
-  position: relative;
-  display: inline-block;
-}
+/* 移除 file-input-wrapper 的样式 */
 
 .file-input {
-  position: absolute;
+  /* 保持原有的样式，但不再需要绝对定位 */
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -377,6 +292,7 @@
 }
 
 
+/* 新增样式，
 /* 新增样式，统一图片容器 */
 .image-container {
   position: relative;
@@ -629,25 +545,26 @@
   border: 1px solid var(--muted);
   border-radius: 8px;
   font-size: 1rem;
-  color: var(--muted-foreground);
-  background-color: var(--card);
+  color: var(--foreground); /* 确保下拉框文本颜色可见 */
+  background-color: var(--card); /* 确保下拉框背景颜色可见 */
   transition: all 0.2s ease;
 }
+
+.aspect-ratio-dropdown option {
+  color: var(--foreground); /* 确保选项文本颜色可见 */
+  background-color: var(--card); /* 确保选项背景颜色可见 */
+}
+
+.aspect-ratio-dropdown option:checked {
+  background-color: var(--primary); /* 选中选项的背景颜色 */
+  color: var(--primary-foreground); /* 选中选项的文本颜色 */
+}
+
 
 .aspect-ratio-dropdown:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 2px var(--primary-dark);
-}
-
-.aspect-ratio-dropdown option {
-    color: var(--foreground); /* Set the text color for options */
-    background-color: var(--card); /* Set the background color for options */
-}
-
-.aspect-ratio-dropdown option:checked {
-    background-color: var(--primary-light);
-    color: var(--foreground);
 }
 
 .aspect-ratio-dropdown:hover,
