@@ -1,4 +1,5 @@
 // src/utils/imageProcessor.ts
+
 import { removeBackground, Config } from '@imgly/background-removal';
 import type { CropperRef, ImageInfo, CropData, ScaleFactors, CanvasData, CropperImageData } from '@/types';
 
@@ -77,8 +78,12 @@ export const imageProcessor = async ({
             model: 'medium',
         };
 
-        const blob = await removeBackground(file, config);
-
+        let blob;
+        if (disableMultithreading) {
+            blob = await removeBackground(file, config);
+        } else {
+            blob = await removeBackground(file, config);
+        }
 
         if (!blob) {
             setProcessingMessage('Background removal failed.');
@@ -139,9 +144,10 @@ export const imageProcessor = async ({
                         naturalHeight: img.naturalHeight,
                         width: img.width,
                         height: img.height,
-                        left: 0,
-                        top: 0
-                    };
+                        left: 0, // Add this line
+                        top: 0, // Add this line
+                      };
+
                     const canvasData: CanvasData = {
                         naturalWidth: img.naturalWidth,
                         naturalHeight: img.naturalHeight,

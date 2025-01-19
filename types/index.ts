@@ -36,8 +36,8 @@ export interface CropperImageData {
     naturalHeight: number;
     width: number;
     height: number;
-    left: number;
-    top: number;
+    left?: number;
+    top?: number;
 }
 
 export interface CropBoxData {

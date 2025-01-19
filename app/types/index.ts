@@ -31,14 +31,14 @@ export interface ScaleFactors {
 }
 
 // Cropper 相关类型
-export interface CropperImageData {
+interface CropperImageData {
     naturalWidth: number;
     naturalHeight: number;
     width: number;
     height: number;
-    left: number;
-    top: number;
-}
+    left?: number; // Make left optional
+    top?: number; // Make top optional
+  }
 
 export interface CropBoxData {
     left: number;
@@ -48,19 +48,19 @@ export interface CropBoxData {
 }
 
 export interface CanvasData {
-     naturalWidth: number;
-     naturalHeight: number;
-     width: number;
-     height: number;
-     left: number;
-     top: number;
+    naturalWidth: number;
+    naturalHeight: number;
+    width: number;
+    height: number;
+    left: number;
+    top: number;
 }
 
 export interface CropperInstance {
-   getCroppedCanvas(options?: {
-         width?: number;
-         height?: number;
-     }): HTMLCanvasElement;
+    getCroppedCanvas(options?: {
+        width?: number;
+        height?: number;
+    }): HTMLCanvasElement;
 
     getImageData(): CropperImageData;
 
@@ -69,8 +69,6 @@ export interface CropperInstance {
     setCropBoxData(data: CropBoxData): void;
 
     getCropBoxData(): CropBoxData;
-
-    
 }
 
 export interface CropperRef {
