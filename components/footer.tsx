@@ -12,7 +12,7 @@ export default function Footer() {
               <span className="text-lg font-bold">ID Photographic</span>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">
-              Transform your photos into professional ID pictures using advanced AI technology.
+              AI-powered ID photo generator.
             </p>
           </div>
           
