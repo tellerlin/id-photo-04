@@ -120,11 +120,11 @@
 .process-steps::before {
   content: '';
   position: absolute;
-  top: 50%;
+  top: 20px; /* 调整高度以匹配图标位置 */
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--border); /* Changed to border */
+  background-color: var(--muted); /* 使用主题变量 */
   z-index: 1;
 }
 
@@ -643,6 +643,11 @@
 .aspect-ratio-dropdown option {
     color: var(--foreground); /* Set the text color for options */
     background-color: var(--card); /* Set the background color for options */
+}
+
+.aspect-ratio-dropdown option:checked {
+    background-color: var(--primary-light);
+    color: var(--foreground);
 }
 
 .aspect-ratio-dropdown:hover,
