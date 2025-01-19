@@ -1,10 +1,9 @@
-'use client'
+'use client';
 
-import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useMemo, forwardRef, lazy, Suspense } from 'react';
 import 'cropperjs/dist/cropper.css';
 import '../globals.css';
-import './idphoto.css'
-import dynamic from 'next/dynamic';
+import './idphoto.css';
 import { ErrorBoundary } from 'react-error-boundary';
 import outline from '../../public/outline.png';
 import type { CropperRef, ImageInfo, CropData, ScaleFactors } from '@/types';
@@ -12,10 +11,10 @@ import { imageProcessor } from '../../utils/imageProcessor';
 import { aspectRatioOptions, presetColors } from '../../constants';
 import { intelligentCrop } from '../../utils/intelligentCrop';
 
-const CropperComponent = dynamic(() => import('react-cropper'), {
-    ssr: false,
-    loading: () => <div>Loading Cropper...</div>
-});
+const CropperComponent = lazy(() =>
+    import('react-cropper').then((module) => ({ default: forwardRef<CropperRef, any>((props, ref) => <module.default {...props} ref={ref} />) }))
+);
+
 
 function ErrorFallback({ error }: { error: Error }) {
     return (
@@ -122,7 +121,8 @@ export default function App() {
                 isDevelopmentMode,
                 setIsScaleInitialized,
                 setIsCropperReady,
-                intelligentCrop
+                intelligentCrop,
+                disableMultithreading: true, // 禁用多线程
             });
         } catch (error) {
             console.error('Image processing error:', error);
@@ -427,7 +427,7 @@ export default function App() {
                             </div>
                         </div>
                         <div className="cropper-section">
-                            <React.Suspense fallback={<div>Loading Cropper...</div>}>
+                            <Suspense fallback={<div>Loading Cropper...</div>}>
                                 <CropperComponent
                                     key={cropperKey}
                                     src={image}
@@ -461,7 +461,7 @@ export default function App() {
                                         }
                                     }}
                                 />
-                            </React.Suspense>
+                            </Suspense>
                         </div>
                         <div className="correction-section" data-label="Correction">
                             {correctionImage && (
@@ -564,18 +564,3 @@ export default function App() {
         </ErrorBoundary>
     );
 }
-
-
-          {/* Controls Section */}
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <h3 className="font-semibold">Photo Requirements</h3>
-              <ul className="text-sm text-muted-foreground list-disc pl-4">
-                <li>Front-facing portrait</li>
-                <li>Plain light-colored background</li>
-                <li>No hats or sunglasses</li>
-                <li>Neutral expression</li>
-              </ul>
-            </div>
-            </div>
-
