@@ -124,7 +124,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--muted);
+  background: var(--border); /* Changed to border */
   z-index: 1;
 }
 
@@ -638,4 +638,15 @@
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 2px var(--primary-dark);
+}
+
+.aspect-ratio-dropdown option {
+    color: var(--foreground); /* Set the text color for options */
+    background-color: var(--card); /* Set the background color for options */
+}
+
+.aspect-ratio-dropdown:hover,
+.aspect-ratio-dropdown:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-dark);
 }
