@@ -1,8 +1,10 @@
+// page.tsx
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Camera, Wand2, Shield, Clock, Upload, Sparkles, Settings, Download, CheckCircle2 } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -19,12 +21,11 @@ export default function Home() {
                 Advanced AI-powered photo processing for official documents. Get perfect ID photos without leaving your home.
               </p>
               <div className="flex gap-4">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                  Get Started
-                </Button>
-                <Button size="lg" variant="outline">
-                  Learn More
-                </Button>
+                <Link href="/idphoto">
+                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    Get Started
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="relative">
