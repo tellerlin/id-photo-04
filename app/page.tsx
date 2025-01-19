@@ -164,6 +164,37 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* Privacy Section */}
+      <section id="privacy" className="py-20">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-12">Privacy Policy</h2>
+          <div className="max-w-3xl mx-auto text-muted-foreground">
+            <p className="mb-4">
+              Your privacy is important to us. This privacy policy explains how we collect, use, and protect your personal information.
+            </p>
+            <p className="mb-4">
+              We collect information such as your name, email address, and payment information when you use our services. We use this information to provide you with our services, process payments, and communicate with you.
+            </p>
+            <p className="mb-4">
+              We do not share your personal information with third parties except as necessary to provide our services or as required by law.
+            </p>
+            <p>
+              We take reasonable measures to protect your personal information from unauthorized access, use, or disclosure.
+            </p>
+          </div>
+        </div>
+      </section>
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-secondary/50">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-12">Contact Us</h2>
+          <div className="max-w-3xl mx-auto text-muted-foreground text-center">
+            <p>
+              Email us at <a href="mailto:support@example.com" className="text-primary">support@example.com</a>
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

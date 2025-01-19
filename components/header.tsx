@@ -36,6 +36,11 @@ export default function Header() {
                 <NavigationMenuLink className="px-4 py-2">Privacy</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
+             <NavigationMenuItem>
+              <Link href="#contact" legacyBehavior passHref>
+                <NavigationMenuLink className="px-4 py-2">Contact</NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 

@@ -24,11 +24,6 @@ export default function Footer() {
                   Features
                 </Link>
               </li>
-              <li>
-                <Link href="#pricing" className="text-muted-foreground hover:text-primary">
-                  Pricing
-                </Link>
-              </li>
             </ul>
           </div>
           
@@ -54,11 +49,6 @@ export default function Footer() {
               <li>
                 <Link href="#privacy" className="text-muted-foreground hover:text-primary">
                   Privacy
-                </Link>
-              </li>
-              <li>
-                <Link href="#terms" className="text-muted-foreground hover:text-primary">
-                  Terms
                 </Link>
               </li>
             </ul>
