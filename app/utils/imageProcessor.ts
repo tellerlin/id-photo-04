@@ -77,14 +77,7 @@ export const imageProcessor = async ({
             model: 'medium',
         };
 
-        let blob: Blob | null = null;
-        if (disableMultithreading) {
-            // 禁用多线程，使用单线程模式
-            blob = await removeBackground(file, { ...config, numThreads: 1 });
-        } else {
-            // 使用多线程模式
-            blob = await removeBackground(file, config);
-        }
+        const blob = await removeBackground(file, config);
 
 
         if (!blob) {
@@ -145,7 +138,9 @@ export const imageProcessor = async ({
                         naturalWidth: img.naturalWidth,
                         naturalHeight: img.naturalHeight,
                         width: img.width,
-                        height: img.height
+                        height: img.height,
+                        left: 0,
+                        top: 0
                     };
                     const canvasData: CanvasData = {
                         naturalWidth: img.naturalWidth,
