@@ -1,14 +1,13 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect, useMemo, lazy, Suspense } from 'react';
+import React, { useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
 import 'cropperjs/dist/cropper.css';
 import '../globals.css';
 import './idphoto.css';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ChevronDown } from 'lucide-react';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import outline from '../../public/outline.png';
-import type { ImageInfo, CropData, ScaleFactors } from '@/types';
+import type { ImageInfo, ScaleFactors } from '@/types';
 import type { ReactCropperElement } from 'react-cropper';
 import { imageProcessor } from '../../utils/imageProcessor';
 import { aspectRatioOptions, presetColors } from '../../constants';
@@ -46,7 +45,6 @@ export default function App() {
     const [isScaleInitialized, setIsScaleInitialized] = useState(false);
     const isDevelopmentMode = process.env.NODE_ENV !== 'production';
     const [isCropperReady, setIsCropperReady] = useState(false);
-    const [cropperCanvasScale, setCropperCanvasScale] = useState({ scaleX: 1, scaleY: 1 });
     const [selectedAspectRatio, setSelectedAspectRatio] = useState<number>(3 / 4);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const aspectRatioTitleRef = useRef<HTMLHeadingElement | null>(null);
@@ -624,4 +622,3 @@ export default function App() {
         </ErrorBoundary>
     );
 }
-

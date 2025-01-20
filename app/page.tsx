@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Camera, Wand2, Shield, Clock, Upload, Sparkles, Settings, Download, CheckCircle2 } from "lucide-react";
+import { Wand2, Shield, Clock, Upload, Sparkles, Settings, Download, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import homePagePhoto from '../public/photos/home-page-photo-1.jpg';
@@ -11,7 +11,6 @@ import homePagePhoto from '../public/photos/home-page-photo-1.jpg';
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="container mx-auto relative z-10">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
@@ -32,7 +31,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <Image
-                src={homePagePhoto} // 使用变量作为 src 的值
+                src={homePagePhoto}
                 alt="Profile photo example"
                 width={600}
                 height={600}
@@ -42,33 +41,15 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Features Section */}
       <section id="features" className="py-20 bg-secondary/50">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {[
-              {
-                icon: <Wand2 className="h-8 w-8" />,
-                title: "Smart AI Processing",
-                description: "Our AI automatically removes backgrounds and adjusts lighting for perfect ID photos."
-              },
-              {
-                icon: <Shield className="h-8 w-8" />,
-                title: "Guaranteed Compliance",
-                description: "Meets all official ID photo requirements, ensuring your photos are accepted by recognized authorities."
-              },
-              {
-                icon: <Clock className="h-8 w-8" />,
-                title: "Instant ID Photo Maker",
-                description: "Get your professional ID photos in just minutes, no appointment needed."
-              },
-              {
-                icon: <CheckCircle2 className="h-8 w-8" />,
-                title: "Professional Review",
-                description: "Expert verification ensures your ID photos meet the highest standards."
-              }
+              { icon: <Wand2 className="h-8 w-8" />, title: "Smart AI Processing", description: "Our AI automatically removes backgrounds and adjusts lighting for perfect ID photos." },
+              { icon: <Shield className="h-8 w-8" />, title: "Guaranteed Compliance", description: "Meets all official ID photo requirements, ensuring your photos are accepted by recognized authorities." },
+              { icon: <Clock className="h-8 w-8" />, title: "Instant ID Photo Maker", description: "Get your professional ID photos in just minutes, no appointment needed." },
+              { icon: <CheckCircle2 className="h-8 w-8" />, title: "Professional Review", description: "Expert verification ensures your ID photos meet the highest standards." }
             ].map((feature, index) => (
               <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
                 <div className="mb-4 text-primary">{feature.icon}</div>
@@ -79,40 +60,15 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* How It Works Section */}
       <section className="py-20">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Create Your ID Photo in 4 Simple Steps</h2>
           <div className="grid gap-8 md:grid-cols-4">
             {[
-              {
-                icon: <Upload className="h-8 w-8" />,
-                title: "Upload Your Photo",
-                description: "Use any device to upload a clear, front-facing portrait."
-              },
-              {
-                icon: <Sparkles className="h-8 w-8" />,
-                title: "AI-Powered Processing",
-                description: [
-                  "Intelligent background removal",
-                  "Automatic cropping to the correct ID photo size",
-                  "Outline guidance for precise framing"
-                ]
-              },
-              {
-                icon: <Settings className="h-8 w-8" />,
-                title: "Customize Your ID Photo",
-                description: [
-                  "Select the required aspect ratio",
-                  "Choose your preferred background color"
-                ]
-              },
-              {
-                icon: <Download className="h-8 w-8" />,
-                title: "Download Your ID Photo",
-                description: "Get your professional, print-ready ID photo instantly."
-              }
+              { icon: <Upload className="h-8 w-8" />, title: "Upload Your Photo", description: "Use any device to upload a clear, front-facing portrait." },
+              { icon: <Sparkles className="h-8 w-8" />, title: "AI-Powered Processing", description: ["Intelligent background removal", "Automatic cropping to the correct ID photo size", "Outline guidance for precise framing"] },
+              { icon: <Settings className="h-8 w-8" />, title: "Customize Your ID Photo", description: ["Select the required aspect ratio", "Choose your preferred background color"] },
+              { icon: <Download className="h-8 w-8" />, title: "Download Your ID Photo", description: "Get your professional, print-ready ID photo instantly." }
             ].map((step, index) => (
               <div key={index} className="text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
@@ -133,39 +89,19 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* FAQ Section */}
       <section id="faq" className="py-20 bg-secondary/50">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto">
             <Accordion type="single" collapsible>
               {[
+                { question: "What kind of ID photos can I create with ID Photographic?", answer: "Our ID photo maker supports photos for passports, driver's licenses, visas, and other official documents for any country. We ensure your photos meet all specific requirements. This service is completely free to use." },
+                { question: "How does the AI processing work?", answer: "Our AI first intelligently removes the background from your photo, then it assists in cropping the image to the correct ID photo size, ensuring the person's face is properly centered and sized according to the selected aspect ratio." },
+                { question: "How quickly can I get my ID photos?", answer: "Our AI-powered system processes your photos in just a few minutes. You'll receive both digital and printable versions instantly." },
+                { question: "Are the ID photos guaranteed to be accepted?", answer: "We strive to ensure your ID photos meet all official requirements. While we cannot guarantee acceptance by every authority, we provide tools and guidance to help you create compliant photos." },
+                { question: "What are the photo requirements?", answer: "For best results, please use a clear, front-facing portrait with a plain, light-colored background. Avoid wearing hats or sunglasses, and maintain a neutral expression." },
+                { question: "What if I'm not satisfied with the results?", answer: "We offer unlimited retakes and a 100% satisfaction guarantee. Our goal is to ensure you are completely happy with your ID photos. Since the service is free, you can try as many times as you need." },
                 {
-                  question: "What kind of ID photos can I create with ID Photographic?",
-                  answer: "Our ID photo maker supports photos for passports, driver's licenses, visas, and other official documents for any country. We ensure your photos meet all specific requirements. This service is completely free to use."
-                },
-                 {
-                  question: "How does the AI processing work?",
-                   answer: "Our AI first intelligently removes the background from your photo, then it assists in cropping the image to the correct ID photo size, ensuring the person's face is properly centered and sized according to the selected aspect ratio."
-                },
-                {
-                  question: "How quickly can I get my ID photos?",
-                  answer: "Our AI-powered system processes your photos in just a few minutes. You'll receive both digital and printable versions instantly."
-                },
-                {
-                  question: "Are the ID photos guaranteed to be accepted?",
-                  answer: "We strive to ensure your ID photos meet all official requirements. While we cannot guarantee acceptance by every authority, we provide tools and guidance to help you create compliant photos."
-                },
-                 {
-                  question: "What are the photo requirements?",
-                  answer: "For best results, please use a clear, front-facing portrait with a plain, light-colored background. Avoid wearing hats or sunglasses, and maintain a neutral expression."
-                },
-                {
-                  question: "What if I'm not satisfied with the results?",
-                  answer: "We offer unlimited retakes and a 100% satisfaction guarantee. Our goal is to ensure you are completely happy with your ID photos. Since the service is free, you can try as many times as you need."
-                },
-                 {
                     question: "What aspect ratios are supported and what are they used for?",
                     answer: (
                         <>
@@ -192,7 +128,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* Privacy Section */}
       <section id="privacy" className="py-20">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Privacy Policy</h2>
@@ -212,7 +147,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* Contact Section */}
       <section id="contact" className="py-20 bg-secondary/50">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">Contact Us</h2>
