@@ -5,6 +5,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
+    metadataBase: new URL('https://idphotographic.com/'), // 设置 metadataBase
     title: 'ID Photo Pro - Professional ID Photos in Seconds',
     description: 'Transform your photos into professional ID pictures using advanced AI technology. Perfect for passports, licenses, and official documents.',
     keywords: ['ID photos', 'passport photos', 'AI photo processing', 'professional photos'],
