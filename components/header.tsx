@@ -29,11 +29,24 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        <Link href="/idphoto">
-          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 border border-primary/50 shadow-md">
-            Get Started
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              const url = encodeURIComponent(window.location.href);
+              const text = encodeURIComponent('Check out this awesome ID photo generator!');
+              window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+            }}
+          >
+            Share on Twitter
           </Button>
-        </Link>
+          <Link href="/idphoto">
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 border border-primary/50 shadow-md">
+              Get Started
+            </Button>
+          </Link>
+        </div>
       </div>
     </header>
   )
