@@ -5,11 +5,11 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://idphotographic.com/'), // 设置 metadataBase
+    metadataBase: new URL('https://idphotographic.com/'),
     title: 'ID Photo Pro - Professional ID Photos in Seconds',
     description: 'Transform your photos into professional ID pictures using advanced AI technology. Perfect for passports, licenses, and official documents.',
     keywords: ['ID photos', 'passport photos', 'AI photo processing', 'professional photos'],
-    author: 'TellerLin',
+    authors: [{ name: 'TellerLin' }], // Changed 'author' to 'authors' and provided an array
     viewport: 'width=device-width, initial-scale=1',
     robots: 'index, follow',
     openGraph: {

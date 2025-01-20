@@ -121,13 +121,15 @@ export default function App() {
             });
             if (aspectRatioTitleRef.current) {
                 requestAnimationFrame(() => {
-                    aspectRatioTitleRef.current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                    });
-                    setTimeout(() => {
-                        window.scrollBy(0, -20);
-                    }, 500);
+                    if (aspectRatioTitleRef.current) {
+                        aspectRatioTitleRef.current.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                        });
+                        setTimeout(() => {
+                            window.scrollBy(0, -20);
+                        }, 500);
+                    }
                 });
             }
         } catch (error) {
