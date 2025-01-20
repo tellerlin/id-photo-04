@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://idphotographic.com/'),
@@ -64,6 +65,20 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" suppressHydrationWarning>
+<head>
+  <Script
+    strategy="afterInteractive"
+    src="https://www.googletagmanager.com/gtag/js?id=G-JETP2SPYQK"
+  />
+  <Script id="google-analytics" strategy="afterInteractive">
+    {`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-JETP2SPYQK');
+    `}
+  </Script>
+</head>
             <body className="min-h-screen bg-background font-sans">
                 <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
                     <Header />
