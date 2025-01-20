@@ -524,6 +524,29 @@
   }
 }
 
+/* 确保 SelectTrigger 中的文字居中对齐 */
+.SelectTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* 确保 SelectValue 中的文字居中对齐 */
+.SelectTrigger > span {
+  text-align: center;
+  width: 100%;
+  display: block; /* 确保 span 占据整个宽度 */
+}
+
+/* 确保 SelectItem 中的文字居中对齐 */
+.SelectItem {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .aspect-ratio-selector {
   margin-top: 1rem;
   text-align: center;

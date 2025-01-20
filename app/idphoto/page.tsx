@@ -27,27 +27,6 @@ function ErrorFallback({ error }: { error: Error }) {
     );
 }
 
-// 骨架屏组件
-const Skeleton = () => (
-    <div className="skeleton-container">
-        <div className="skeleton-header"></div>
-        <div className="skeleton-steps">
-            <div className="skeleton-step"></div>
-            <div className="skeleton-step"></div>
-            <div className="skeleton-step"></div>
-            <div className="skeleton-step"></div>
-        </div>
-        <div className="skeleton-upload"></div>
-        <div className="skeleton-editor">
-            <div className="skeleton-cropper"></div>
-            <div className="skeleton-correction"></div>
-            <div className="skeleton-preview"></div>
-        </div>
-        <div className="skeleton-background"></div>
-        <div className="skeleton-download"></div>
-    </div>
-);
-
 export default function App() {
     const [image, setImage] = useState<string | null>(null);
     const [processedImage, setProcessedImage] = useState<string | null>(null);
@@ -70,6 +49,8 @@ export default function App() {
     const [cropperCanvasScale, setCropperCanvasScale] = useState({ scaleX: 1, scaleY: 1 });
     const [selectedAspectRatio, setSelectedAspectRatio] = useState<number>(3 / 4);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const cropperSectionRef = useRef<HTMLDivElement | null>(null);
+    const aspectRatioTitleRef = useRef<HTMLHeadingElement | null>(null); // 新增标题元素的 ref
     const [isLoading, setIsLoading] = useState(true); // 添加加载状态
 
     useEffect(() => {
@@ -147,6 +128,26 @@ export default function App() {
                 intelligentCrop,
                 // disableMultithreading: true, // 禁用多线程
             });
+            // 上传成功后滚动到 "Select Aspect Ratio" 标题
+            if (aspectRatioTitleRef.current) {
+                // 确保目标元素滚动到屏幕顶部
+                requestAnimationFrame(() => {
+                    console.log('Scroll top before:', window.scrollY);
+                    aspectRatioTitleRef.current.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',  // 保证元素位于屏幕顶部
+                    });
+                    // 调试滚动位置
+                    setTimeout(() => {
+                        console.log('Scroll top after:', window.scrollY);
+                    }, 500);
+
+                    // 可选：你可以通过设置延时来确保标题完全加载并显示在屏幕顶部
+                    setTimeout(() => {
+                        window.scrollBy(0, -20); // 如果需要，微调滚动位置
+                    }, 500);
+                });
+            }
         } catch (error) {
             console.error('Image processing error:', error);
             setIsProcessing(false);
@@ -157,6 +158,7 @@ export default function App() {
             setCorrectionImage(null);
             setIsCropperReady(false);
         }
+
     }, [imageProcessor, selectedAspectRatio, isDevelopmentMode, intelligentCrop]);
 
     const handleCropChange = useCallback(() => {
@@ -351,9 +353,14 @@ export default function App() {
         }
     };
 
-    if (isLoading) {
-        return <Skeleton />; // 展示骨架屏
-    }
+    useEffect(() => {
+        if (aspectRatioTitleRef.current) {
+            console.log('aspectRatioTitleRef is bound to:', aspectRatioTitleRef.current);
+            console.log('aspectRatioTitleRef current node:', aspectRatioTitleRef.current);
+        } else {
+            console.log('aspectRatioTitleRef is not bound');
+        }
+    }, [image]);
 
     return (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -451,84 +458,84 @@ export default function App() {
                         </div>
                     )}
                 </div>
-                {image && (
-                    <div className="aspect-ratio-selector flex items-center justify-center gap-2 w-full">
-                        <h3 className="text-center">Select Aspect Ratio</h3>
-                        <div className="aspect-ratio-select">
-                            <Select
-                                value={selectedAspectRatio.toString()}
-                                onValueChange={(value) => {
-                                    setSelectedAspectRatio(parseFloat(value));
-                                    setCropperKey(prevKey => prevKey + 1);
-                                    setTimeout(performIntelligentCrop, 100);
-                                }}
+                <div className="aspect-ratio-selector flex items-center justify-center gap-2 w-full">
+                    <h3 className="text-center" ref={aspectRatioTitleRef}>Select Aspect Ratio</h3>
+                    <div className="aspect-ratio-select">
+
+                        <Select
+                        value={selectedAspectRatio.toString()}
+                        onValueChange={(value) => {
+                            setSelectedAspectRatio(parseFloat(value));
+                            setCropperKey(prevKey => prevKey + 1);
+                            setTimeout(performIntelligentCrop, 100);
+                        }}
+                        >
+                        <SelectTrigger className="w-[200px] text-center">
+                            <SelectValue placeholder="Select ratio" />
+                        </SelectTrigger>
+                        <SelectContent className="text-center">
+                            {aspectRatioOptions.map((option) => (
+                            <SelectItem
+                                key={option.value}
+                                value={option.value.toString()}
+                                className="text-center"
                             >
-                                <SelectTrigger className="w-[200px]">
-                                    <SelectValue placeholder="Select ratio" />
-                                </SelectTrigger>
-                                <SelectContent className="text-center">
-                                    {aspectRatioOptions.map((option) => (
-                                        <SelectItem
-                                            key={option.value}
-                                            value={option.value.toString()}
-                                            className="text-center"
-                                        >
-                                            {option.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <div className="aspect-ratio-tooltip">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Aspect Ratio</th>
-                                            <th>Example Photo Size</th>
-                                            <th>Common Uses</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1:1</td>
-                                            <td>2x2 inches (51x51mm)</td>
-                                            <td>Passport photos for US, UK; Social media profile pictures</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2:3</td>
-                                            <td>2x3 inches (51x76mm)</td>
-                                            <td>ID photos for France, Spain; Standard photo prints</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3:4</td>
-                                            <td>3x4 inches (76x102mm)</td>
-                                            <td>Passport photos for Germany, Netherlands; Visa applications</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4:3</td>
-                                            <td>4x3 inches (102x76mm)</td>
-                                            <td>Driver's license photos in some US states; Digital camera standard</td>
-                                        </tr>
-                                        <tr>
-                                            <td>5:7</td>
-                                            <td>2.5x3.5 inches (64x89mm)</td>
-                                            <td>Certain professional ID cards in European countries</td>
-                                        </tr>
-                                        <tr>
-                                            <td>7:9</td>
-                                            <td>2.8x3.5 inches (71x89mm)</td>
-                                            <td>Specific ID requirements in Japan, South Korea</td>
-                                        </tr>
-                                        <tr>
-                                            <td>9:7</td>
-                                            <td>3.5x2.8 inches (89x71mm)</td>
-                                            <td>Some Asian countries' residence permit photos</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                {option.label}
+                            </SelectItem>
+                            ))}
+                        </SelectContent>
+                        </Select>
+
+                        <div className="aspect-ratio-tooltip">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Aspect Ratio</th>
+                                        <th>Example Photo Size</th>
+                                        <th>Common Uses</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1:1</td>
+                                        <td>2x2 inches (51x51mm)</td>
+                                        <td>Passport photos for US, UK; Social media profile pictures</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2:3</td>
+                                        <td>2x3 inches (51x76mm)</td>
+                                        <td>ID photos for France, Spain; Standard photo prints</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3:4</td>
+                                        <td>3x4 inches (76x102mm)</td>
+                                        <td>Passport photos for Germany, Netherlands; Visa applications</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4:3</td>
+                                        <td>4x3 inches (102x76mm)</td>
+                                        <td>Driver's license photos in some US states; Digital camera standard</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5:7</td>
+                                        <td>2.5x3.5 inches (64x89mm)</td>
+                                        <td>Certain professional ID cards in European countries</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7:9</td>
+                                        <td>2.8x3.5 inches (71x89mm)</td>
+                                        <td>Specific ID requirements in Japan, South Korea</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9:7</td>
+                                        <td>3.5x2.8 inches (89x71mm)</td>
+                                        <td>Some Asian countries' residence permit photos</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                )}
+                </div>
                 {image && (
                     <div className="editor-container">
                         <div className={`processing-overlay ${isProcessing ? 'visible' : ''}`}>
@@ -537,7 +544,7 @@ export default function App() {
                                 <div className="spinner-text">{processingMessage}</div>
                             </div>
                         </div>
-                        <div className="cropper-section">
+                        <div className="cropper-section" ref={cropperSectionRef}>
                             <Suspense fallback={<div>Loading Cropper...</div>}>
                                 <CropperComponent
                                     key={cropperKey}
@@ -677,4 +684,3 @@ export default function App() {
         </ErrorBoundary>
     );
 }
-
