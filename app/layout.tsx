@@ -6,8 +6,8 @@ import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://idphotographic.com/'),
-    title: 'ID Photo Pro - Professional ID Photos in Seconds',
-    description: 'Transform your photos into professional ID pictures using advanced AI technology. Perfect for passports, licenses, and official documents.',
+    title: 'ID Photographic - Online ID Photo Maker & Passport Photo Generator',
+    description: 'Create professional ID photos for passports, visas, and official documents with our free online photo maker. Get perfectly sized, compliant ID photos instantly with AI-powered tools.',
     keywords: ['ID photos', 'passport photos', 'AI photo processing', 'professional photos'],
     authors: [{ name: 'TellerLin' }], // Changed 'author' to 'authors' and provided an array
     viewport: 'width=device-width, initial-scale=1',

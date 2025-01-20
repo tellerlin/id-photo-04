@@ -1,4 +1,9 @@
-'use client';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'ID Photographic - Online ID Photo Maker & Passport Photo Generator',
+  description: 'Create professional ID photos for passports, visas, and official documents with our free online photo maker. Get perfectly sized, compliant ID photos instantly with AI-powered tools.',
+};
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
