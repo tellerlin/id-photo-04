@@ -49,18 +49,15 @@ export default function App() {
     const [cropperCanvasScale, setCropperCanvasScale] = useState({ scaleX: 1, scaleY: 1 });
     const [selectedAspectRatio, setSelectedAspectRatio] = useState<number>(3 / 4);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const cropperSectionRef = useRef<HTMLDivElement | null>(null);
-    const aspectRatioTitleRef = useRef<HTMLHeadingElement | null>(null); // 新增标题元素的 ref
-    const [isLoading, setIsLoading] = useState(true); // 添加加载状态
+    const aspectRatioTitleRef = useRef<HTMLHeadingElement | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (!canvasRef.current) {
-            canvasRef.current = document.createElement('canvas') as HTMLCanvasElement;
-        }
+        canvasRef.current = canvasRef.current || document.createElement('canvas') as HTMLCanvasElement;
         if (typeof window !== 'undefined') {
-            imageRef.current = new window.Image();
+            imageRef.current = imageRef.current || new window.Image();
         }
-        setIsLoading(false); // 初始加载完成
+        setIsLoading(false);
     }, []);
 
     const performIntelligentCrop = useCallback(() => {
@@ -94,10 +91,7 @@ export default function App() {
         const newAspectRatio = parseFloat(event.target.value);
         setSelectedAspectRatio(newAspectRatio);
         setCropperKey(prevKey => prevKey + 1);
-
-        requestAnimationFrame(() => {
-            setTimeout(performIntelligentCrop, 100);
-        });
+        requestAnimationFrame(() => setTimeout(performIntelligentCrop, 100));
     }, [performIntelligentCrop]);
 
     const handleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,25 +120,15 @@ export default function App() {
                 setIsScaleInitialized,
                 setIsCropperReady,
                 intelligentCrop,
-                // disableMultithreading: true, // 禁用多线程
             });
-            // 上传成功后滚动到 "Select Aspect Ratio" 标题
             if (aspectRatioTitleRef.current) {
-                // 确保目标元素滚动到屏幕顶部
                 requestAnimationFrame(() => {
-                    console.log('Scroll top before:', window.scrollY);
                     aspectRatioTitleRef.current.scrollIntoView({
                         behavior: 'smooth',
-                        block: 'start',  // 保证元素位于屏幕顶部
+                        block: 'start',
                     });
-                    // 调试滚动位置
                     setTimeout(() => {
-                        console.log('Scroll top after:', window.scrollY);
-                    }, 500);
-
-                    // 可选：你可以通过设置延时来确保标题完全加载并显示在屏幕顶部
-                    setTimeout(() => {
-                        window.scrollBy(0, -20); // 如果需要，微调滚动位置
+                        window.scrollBy(0, -20);
                     }, 500);
                 });
             }
@@ -286,14 +270,6 @@ export default function App() {
     }, [image]);
 
     useEffect(() => {
-        if (isDevelopmentMode) {
-            console.log('Image state changed:', {
-                image,
-                imageRefCurrent: imageRef.current,
-                imageRefSrc: imageRef.current?.src
-            });
-        }
-
         if (image && isScaleInitialized && isCropperReady) {
             try {
                 const img = imageRef.current;
@@ -305,17 +281,7 @@ export default function App() {
                 img.onload = () => {
                     setTimeout(() => {
                         if (cropperRef.current?.cropper) {
-                            if (isDevelopmentMode) {
-                                console.log('Cropper Data before intelligentCrop (useEffect):', {
-                                    imageData: cropperRef.current.cropper.getImageData(),
-                                    canvasData: cropperRef.current.cropper.getCanvasData(),
-                                    scaleRef: scaleRef.current
-                                });
-                            }
                             performIntelligentCrop();
-                            if (isDevelopmentMode) {
-                                console.log('Cropper Box Data after setCropBoxData in useEffect:', cropperRef.current.cropper.getCropBoxData());
-                            }
                         }
                     }, 100);
                 };
@@ -352,15 +318,6 @@ export default function App() {
             fileInputRef.current.click();
         }
     };
-
-    useEffect(() => {
-        if (aspectRatioTitleRef.current) {
-            console.log('aspectRatioTitleRef is bound to:', aspectRatioTitleRef.current);
-            console.log('aspectRatioTitleRef current node:', aspectRatioTitleRef.current);
-        } else {
-            console.log('aspectRatioTitleRef is not bound');
-        }
-    }, [image]);
 
     return (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -410,20 +367,19 @@ export default function App() {
                     </div>
                 </div>
                 <div className="upload-section">
-                    {/* 移除 file-input-wrapper */}
                     <input
                         type="file"
                         accept="image/*"
                         onChange={handleImageUpload}
                         className="file-input"
                         disabled={isProcessing}
-                        ref={fileInputRef} // 添加 ref
-                        style={{ display: 'none' }} // 隐藏 input 元素
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
                     />
                     <div className="flex flex-col items-center">
                         <button
                             className={`upload-button ${isProcessing ? 'disabled' : ''} ${isProcessing ? 'loading-button' : ''}`}
-                            onClick={handleButtonClick} // 添加点击事件
+                            onClick={handleButtonClick}
                             disabled={isProcessing}
                         >
                             <svg
@@ -544,7 +500,7 @@ export default function App() {
                                 <div className="spinner-text">{processingMessage}</div>
                             </div>
                         </div>
-                        <div className="cropper-section" ref={cropperSectionRef}>
+                        <div className="cropper-section">
                             <Suspense fallback={<div>Loading Cropper...</div>}>
                                 <CropperComponent
                                     key={cropperKey}
@@ -561,22 +517,6 @@ export default function App() {
                                     viewMode={1}
                                     onInitialized={() => {
                                         setIsCropperReady(true);
-                                        if (cropperRef.current?.cropper && isDevelopmentMode) {
-                                            console.log('Cropper Initialized:', {
-                                                imageData: cropperRef.current.cropper.getImageData(),
-                                                canvasData: cropperRef.current.cropper.getCanvasData(),
-                                                cropBoxData: cropperRef.current.cropper.getCropBoxData(),
-                                                scaleRef: scaleRef.current
-                                            });
-
-                                            const canvasData = cropperRef.current.cropper.getCanvasData();
-                                            if (imageRef.current) {
-                                                setCropperCanvasScale({
-                                                    scaleX: canvasData.width / imageRef.current.naturalWidth,
-                                                    scaleY: canvasData.height / imageRef.current.naturalHeight,
-                                                });
-                                            }
-                                        }
                                     }}
                                 />
                             </Suspense>
@@ -684,3 +624,4 @@ export default function App() {
         </ErrorBoundary>
     );
 }
+

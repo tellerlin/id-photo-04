@@ -27,7 +27,6 @@
   padding: 20px;
 }
 
-/* Enhanced Process Steps */
 .process-steps {
   display: flex;
   justify-content: space-between;
@@ -45,9 +44,8 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: var(--muted);
-  z-index: 1;
   background-color: rgba(255, 255, 255, 0.5);
+  z-index: 1;
 }
 
 .process-step {
@@ -524,7 +522,6 @@
   }
 }
 
-/* 确保 SelectTrigger 中的文字居中对齐 */
 .SelectTrigger {
   display: flex;
   align-items: center;
@@ -532,14 +529,12 @@
   text-align: center;
 }
 
-/* 确保 SelectValue 中的文字居中对齐 */
 .SelectTrigger > span {
   text-align: center;
   width: 100%;
-  display: block; /* 确保 span 占据整个宽度 */
+  display: block;
 }
 
-/* 确保 SelectItem 中的文字居中对齐 */
 .SelectItem {
   text-align: center;
   display: flex;
@@ -550,19 +545,18 @@
 .aspect-ratio-selector {
   margin-top: 1rem;
   text-align: center;
-  position: relative; /* 添加相对定位 */
+  position: relative;
 }
 
 .aspect-ratio-selector h3 {
   margin-bottom: 0.5rem;
   font-size: 1.125rem;
   color: var(--primary-foreground);
-  display: inline-flex; /* 使标题和图标可以水平排列 */
-  align-items: center; /* 垂直居中对齐 */
-  gap: 0.3rem; /* 标题和图标之间的间距 */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
-/* 添加 Tooltip 提示图标 */
 .aspect-ratio-selector h3::after {
   content: '?';
   display: inline-flex;
@@ -621,7 +615,7 @@
 
 .aspect-ratio-tooltip {
   position: absolute;
-  top: 100%; /* 将 Tooltip 放置在标题下方 */
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--card);
@@ -636,7 +630,7 @@
   margin-top: 0.5rem;
 }
 
-.aspect-ratio-selector:hover .aspect-ratio-tooltip { /* 修改选择器 */
+.aspect-ratio-selector:hover .aspect-ratio-tooltip {
   opacity: 1;
   visibility: visible;
 }
@@ -670,7 +664,6 @@
   color: var(--foreground);
 }
 
-/* 骨架屏样式 */
 .skeleton-container {
     display: flex;
     flex-direction: column;
